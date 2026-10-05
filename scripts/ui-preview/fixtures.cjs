@@ -25,7 +25,7 @@ function makeFixtures() {
   ].map((row, i) => ({
     ...row,
     grpcPort: 8100,
-    trojanPanelCoreVersion: '2.3.0-preview',
+    trojanPanelCoreVersion: 'v3.0.0',
     createTime: NOW - (80 - i * 15) * DAY
   }))
   const nodes = [
@@ -204,6 +204,7 @@ function makeFixtures() {
     ],
     system: {
       id: 1,
+      version: 'v3.0.0',
       systemName: 'Trojan Panel Preview',
       registerEnable: 1,
       registerQuota: 10240,

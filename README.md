@@ -2,6 +2,10 @@
 
 Trojan Panel Frontend
 
+## Release 3.0.0
+
+Versioned public images and verification details are in [RELEASE.md](RELEASE.md). Panel component versions are 3.0.0; bundled third-party proxy cores keep their own version numbers.
+
 ## Build
 
 ```
