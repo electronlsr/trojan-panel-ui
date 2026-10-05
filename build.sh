@@ -11,6 +11,6 @@ case "$mode" in
   --push) [[ -n "${PUBLISH_IMAGE:-}" ]] || { echo 'Set PUBLISH_IMAGE explicitly to publish your own image.' >&2; exit 2; }; IMAGE=$PUBLISH_IMAGE ;;
   *) echo 'Usage: build.sh [--load|--push]' >&2; exit 2 ;;
 esac
-yarn install --frozen-lockfile --non-interactive
+yarn install --frozen-lockfile --non-interactive --ignore-engines
 yarn build
 docker buildx build --platform "$PLATFORMS" -t "$IMAGE" "$mode" .

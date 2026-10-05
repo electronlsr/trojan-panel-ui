@@ -29,3 +29,9 @@ alone is not proof of public availability. No server is deployed by this repo.
 Runtime paths, environment names, ports, and installer bind-mount conventions
 remain unchanged. Native service smoke tests use a new disposable Docker
 network, randomized database credentials, and disposable containers only.
+
+The UI build uses Node 22.20.0 and frozen Yarn dependencies. The inherited
+Vue CLI IPC helper declares an obsolete Node <=17 engine range; installation
+ignores that metadata range, without changing its locked bytes. Runtime-adapter,
+subscription, production build and container checks still gate publication.
+Node is a build tool only and is not shipped in the Nginx runtime image.
