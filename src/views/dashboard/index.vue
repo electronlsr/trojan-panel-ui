@@ -10,7 +10,7 @@ import userDashboard from './user'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Dashboard',
+  name: 'DashboardOverview',
   components: { adminDashboard, userDashboard },
   data() {
     return {
@@ -28,4 +28,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" src="./styles.scss"></style>

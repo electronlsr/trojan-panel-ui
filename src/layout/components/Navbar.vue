@@ -19,14 +19,21 @@
         >
           <SizeSelect id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
-
-        <lang-select class="right-menu-item hover-effect" />
       </template>
+      <lang-select class="right-menu-item hover-effect" />
       <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img src="/api/image/logo" class="user-avatar" />
-          <i class="el-icon-caret-bottom" />
-        </div>
+        <button
+          type="button"
+          class="avatar-wrapper"
+          :aria-label="$t('navbar.profile')"
+        >
+          <span class="user-avatar">{{ initial }}</span>
+          <span class="user-identity"
+            ><strong>{{ username }}</strong
+            ><small>{{ roleLabel }}</small></span
+          >
+          <i class="el-icon-arrow-down" />
+        </button>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/modify" custom v-slot="{ navigate }">
             <el-dropdown-item>
@@ -37,6 +44,7 @@
           </router-link>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://github.com/trojanpanel"
             v-if="checkPermission(['sysadmin', 'admin'])"
           >
@@ -44,6 +52,7 @@
           </a>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://trojanpanel.github.io"
             v-if="checkPermission(['sysadmin', 'admin'])"
           >
@@ -76,7 +85,17 @@ export default {
     LangSelect
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'device'])
+    ...mapGetters(['sidebar', 'avatar', 'device', 'username', 'roles']),
+    initial() {
+      return (this.username || 'T').charAt(0).toUpperCase()
+    },
+    roleLabel() {
+      return this.$t(
+        this.roles.some((role) => ['admin', 'sysadmin'].includes(role))
+          ? 'shell.administrator'
+          : 'shell.member'
+      )
+    }
   },
   methods: {
     checkPermission,
@@ -93,83 +112,118 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
-  overflow: hidden;
+  height: 72px;
+  display: flex;
+  align-items: center;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-
+  border-bottom: 1px solid var(--ui-border);
   .hamburger-container {
-    line-height: 46px;
-    height: 100%;
-    float: left;
+    height: 72px;
     cursor: pointer;
-    transition: background 0.3s;
-    -webkit-tap-highlight-color: transparent;
-
+    flex-shrink: 0;
+    transition: background 0.2s;
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background: #f5f7fb;
     }
   }
-
   .breadcrumb-container {
-    float: left;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
   }
-
-  .errLog-container {
-    display: inline-block;
-    vertical-align: top;
-  }
-
   .right-menu {
-    float: right;
+    display: flex;
+    align-items: center;
+    gap: 4px;
     height: 100%;
-    line-height: 50px;
-
-    &:focus {
-      outline: none;
-    }
-
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
-      vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
+    padding-right: 28px;
+    flex-shrink: 0;
+  }
+  .right-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 8px;
+    font-size: 17px;
+    color: #718096;
+    &.hover-effect {
+      cursor: pointer;
+      &:hover {
+        background: #f0f5ff;
+        color: var(--ui-primary);
       }
     }
-
+  }
+  .avatar-container {
+    margin-left: 16px;
+    padding-left: 20px;
+    border-left: 1px solid var(--ui-border);
+  }
+  .avatar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    color: var(--ui-ink);
+  }
+  .user-avatar {
+    display: grid;
+    place-items: center;
+    height: 36px;
+    width: 36px;
+    background: #eaf1ff;
+    color: #2563eb;
+    border: 1px solid #dce7fe;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .user-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 150px;
+    strong {
+      font-size: 13px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    small {
+      font-size: 11px;
+      color: var(--ui-muted);
+    }
+  }
+  .el-icon-arrow-down {
+    color: #93a1b6;
+    margin-left: 8px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 767px) {
+  .navbar {
+    .right-menu {
+      padding-right: 16px;
+    }
     .avatar-container {
-      margin-right: 30px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
+      margin-left: 4px;
+      padding-left: 12px;
+    }
+    .user-identity,
+    .el-icon-arrow-down {
+      display: none;
+    }
+    .breadcrumb-container {
+      font-size: 12px;
+      margin-left: 0;
     }
   }
 }

@@ -48,7 +48,9 @@ export default {
     disable: 'معلول',
     search: 'جستجو کردن',
     add: 'اضافه کردن به',
-    clashSubscribe: 'اشتراک Clash.Meta',
+    clashSubscribe: 'اشتراک Clash Verge Rev / Mihomo',
+    vergeSubscriptionHint:
+      'پیش‌فرض حالت Rule: شبکه محلی و چین مستقیم و سایر ترافیک از پراکسی عبور می‌کند. کلاینت هر ۲۴ ساعت به‌روزرسانی قواعد را بررسی می‌کند.',
     clashSubscribeForSb: 'اشتراک کپی',
     actions: 'عمل کنند',
     edit: 'ویرایش کنید',
@@ -109,8 +111,10 @@ export default {
     hysteriaInsecure: 'اجازه می دهد ناامن',
     hysteriaFastOpen: 'سریع باز کنید',
     naiveProxyUsername: 'کاربر',
-    hysteriaTip: 'Hysteria در حال حاضر پشتیبانی شده در مرحله بتا است، فقط از احراز هویت کاربر پشتیبانی می کند و از آمار ترافیک پشتیبانی نمی کند.',
-    naiveproxyTip: 'NaiveProxy پشتیبانی شده در حال حاضر در مرحله آزمایش است و فقط از احراز هویت کاربر پشتیبانی می کند و از آمار ترافیک پشتیبانی نمی کند.',
+    hysteriaTip:
+      'Hysteria در حال حاضر پشتیبانی شده در مرحله بتا است، فقط از احراز هویت کاربر پشتیبانی می کند و از آمار ترافیک پشتیبانی نمی کند.',
+    naiveproxyTip:
+      'NaiveProxy پشتیبانی شده در حال حاضر در مرحله آزمایش است و فقط از احراز هویت کاربر پشتیبانی می کند و از آمار ترافیک پشتیبانی نمی کند.',
     hysteria2ObfsPassword: 'رمز عبور مبهم',
     hysteria2UpMbps: 'حداکثر سرعت آپلود تک کلاینت/Mbps',
     hysteria2DownMbps: 'حداکثر سرعت دانلود تک مشتری/Mbps',
@@ -202,14 +206,18 @@ export default {
     registerEnable: 'ثبت نام باز است',
     registerQuota: 'ترافیک پیش فرض کاربر جدید/MB',
     registerExpireDays: 'روزهای انقضای پیش‌فرض برای کاربران جدید',
-    resetDownloadAndUploadMonth: 'اینکه آیا ترافیک دانلود و آپلود هر ماه بازنشانی شود',
+    resetDownloadAndUploadMonth:
+      'اینکه آیا ترافیک دانلود و آپلود هر ماه بازنشانی شود',
     trafficRankEnable: 'آیا برای فعال کردن رتبه بندی ترافیک',
     captchaEnable: 'فعال کردن ورود کد تأیید صحت',
     webFileBtn: 'روی سرور آپلود کنید',
     webFileSelect: 'فایل را انتخاب کنید',
-    webFileTip: 'فرمت فایل فقط از .zip پشتیبانی می کند و اندازه آن نمی تواند از 10 مگابایت تجاوز کند',
-    imageFileTip: 'فرمت فایل فقط از .png پشتیبانی می کند و اندازه آن نمی تواند از 3 مگابایت تجاوز کند',
-    jsonFileTip: 'فرمت فایل فقط از .json پشتیبانی می کند و اندازه آن نمی تواند از 10 مگابایت تجاوز کند',
+    webFileTip:
+      'فرمت فایل فقط از .zip پشتیبانی می کند و اندازه آن نمی تواند از 10 مگابایت تجاوز کند',
+    imageFileTip:
+      'فرمت فایل فقط از .png پشتیبانی می کند و اندازه آن نمی تواند از 3 مگابایت تجاوز کند',
+    jsonFileTip:
+      'فرمت فایل فقط از .json پشتیبانی می کند و اندازه آن نمی تواند از 10 مگابایت تجاوز کند',
     emailEnable: 'فعال کردن عملکرد صندوق پستی',
     emailHost: 'ایمیل هاست',
     emailPort: 'پورت صندوق پستی',
@@ -223,7 +231,7 @@ export default {
     clashRule: 'قوانین برخورد',
     xrayTemplate: 'قالب Xray',
     modifyPass: 'تغییر رمز عبور',
-    modifyProperty: 'اطلاعات را اصلاح کنید',
+    modifyProperty: 'اطلاعات را اصلاح کنید'
   },
   valid: {
     passNotSame: 'دو کلمه عبور جدید وارد شده ناسازگار هستند',
@@ -238,7 +246,8 @@ export default {
     quota: 'لطفا کل ترافیک را وارد کنید',
     quotaRange: 'محدوده جریان کل یک عدد صحیح بین -1-1024000 است',
     emailRange: 'محدوده صندوق پستی بین 4 تا 64 کاراکتر است',
-    emailElement: 'لطفا قالب ایمیل صحیح را وارد کنید (فقط 163 126 qq gmail پشتیبانی می شود)',
+    emailElement:
+      'لطفا قالب ایمیل صحیح را وارد کنید (فقط 163 126 qq gmail پشتیبانی می شود)',
     deleted: 'لطفا وضعیت را وارد کنید',
     expireTime: 'لطفاً زمان انقضا را وارد کنید',
     nodeName: 'لطفاً یک نام گره وارد کنید',
@@ -278,27 +287,38 @@ export default {
     hysteriaProtocol: 'لطفا الگو را وارد کنید',
     hysteriaProtocolRange: 'الگوها از 2 تا 16 کاراکتر متغیر هستند',
     hysteriaObfsRange: 'محدوده رمز عبور مبهم بین 2 تا 64 کاراکتر است',
-    hysteriaUpMbps: 'لطفا حداکثر سرعت آپلود/مگابیت در ثانیه یک کلاینت را وارد کنید',
-    hysteriaUpMbpsRange: 'حداکثر سرعت آپلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
-    hysteriaDownMbps: 'لطفا حداکثر سرعت دانلود/مگابیت بر ثانیه یک کلاینت را وارد کنید',
-    hysteriaDownMbpsRange: 'حداکثر سرعت دانلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
+    hysteriaUpMbps:
+      'لطفا حداکثر سرعت آپلود/مگابیت در ثانیه یک کلاینت را وارد کنید',
+    hysteriaUpMbpsRange:
+      'حداکثر سرعت آپلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
+    hysteriaDownMbps:
+      'لطفا حداکثر سرعت دانلود/مگابیت بر ثانیه یک کلاینت را وارد کنید',
+    hysteriaDownMbpsRange:
+      'حداکثر سرعت دانلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
     hysteriaServerNameRange: 'محدوده SNI از 0 تا 64 کاراکتر است',
     hysteriaInsecure: 'لطفاً وارد کنید که آیا غیرایمن است یا خیر',
     hysteriaFastOpen: 'لطفاً وارد کنید که آیا سریع باز شود یا خیر',
     hysteria2ObfsPasswordRange: 'محدوده رمز عبور مبهم بین 4 تا 64 کاراکتر است',
-    hysteria2UpMbps: 'لطفا حداکثر سرعت آپلود/مگابیت در ثانیه یک کلاینت را وارد کنید',
-    hysteria2UpMbpsRange: 'حداکثر سرعت آپلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
-    hysteria2DownMbps: 'لطفا حداکثر سرعت دانلود/مگابیت بر ثانیه یک کلاینت را وارد کنید',
-    hysteria2DownMbpsRange: 'حداکثر سرعت دانلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
+    hysteria2UpMbps:
+      'لطفا حداکثر سرعت آپلود/مگابیت در ثانیه یک کلاینت را وارد کنید',
+    hysteria2UpMbpsRange:
+      'حداکثر سرعت آپلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
+    hysteria2DownMbps:
+      'لطفا حداکثر سرعت دانلود/مگابیت بر ثانیه یک کلاینت را وارد کنید',
+    hysteria2DownMbpsRange:
+      'حداکثر سرعت دانلود یک کلاینت یک عدد صحیح از 1 تا 9999999999 است.',
     hysteria2ServerNameRange: 'محدوده SNI از 0 تا 64 کاراکتر است',
     hysteria2Insecure: 'لطفاً وارد کنید که آیا غیرایمن است یا خیر',
     registerEnable: 'لطفاً وارد کنید که آیا ثبت نام باز است یا خیر',
     registerQuota: 'لطفاً ترافیک پیش فرض کاربران جدید را وارد کنید',
     registerQuotaRange: 'جریان بین 0-1024000 است',
-    registerExpireDays: 'لطفاً روزهای انقضای پیش‌فرض برای کاربران جدید را وارد کنید',
+    registerExpireDays:
+      'لطفاً روزهای انقضای پیش‌فرض برای کاربران جدید را وارد کنید',
     registerExpireDaysRange: 'روز بین 0-365',
-    resetDownloadAndUploadMonth: 'لطفاً وارد کنید که آیا ترافیک بارگیری و بارگذاری هر ماه بازنشانی شود یا خیر',
-    trafficRankEnable: 'لطفاً وارد کنید که آیا رتبه بندی ترافیک فعال می شود یا خیر',
+    resetDownloadAndUploadMonth:
+      'لطفاً وارد کنید که آیا ترافیک بارگیری و بارگذاری هر ماه بازنشانی شود یا خیر',
+    trafficRankEnable:
+      'لطفاً وارد کنید که آیا رتبه بندی ترافیک فعال می شود یا خیر',
     emailEnable: 'لطفاً وارد کنید که آیا عملکرد ایمیل فعال شود یا خیر',
     emailHostRange: 'محدوده میزبان صندوق پستی بین 3 تا 64 کاراکتر است',
     emailPort: 'لطفا پورت ایمیل را وارد کنید',
@@ -322,21 +342,28 @@ export default {
     code: 'لطفا کد تایید را وارد کنید',
     emailAOrUsernameExist: 'ایمیل و نام کاربری باید یکی را پر کنند',
     xrayStreamSettingsEntityRealitySettingsDest: 'لطفا dest را وارد کنید',
-    xrayStreamSettingsEntityRealitySettingsServerNames: 'لطفا serverNames را وارد کنید',
-    xrayStreamSettingsEntityRealitySettingsPrivateKey: 'لطفا privateKey را وارد کنید',
-    xrayStreamSettingsEntityRealitySettingsShortIds: 'لطفا shortIds را وارد کنید',
+    xrayStreamSettingsEntityRealitySettingsServerNames:
+      'لطفا serverNames را وارد کنید',
+    xrayStreamSettingsEntityRealitySettingsPrivateKey:
+      'لطفا privateKey را وارد کنید',
+    xrayStreamSettingsEntityRealitySettingsShortIds:
+      'لطفا shortIds را وارد کنید',
     realityPbk: 'لطفا publicKey را وارد کنید',
-    xrayStreamSettingsEntityRealitySettingsXver: 'xver فقط می تواند 0، 1، 2 باشد',
+    xrayStreamSettingsEntityRealitySettingsXver:
+      'xver فقط می تواند 0، 1، 2 باشد',
     createBatchNum: 'لطفا مقدار را وارد کنید',
     createBatchNumRange: 'عدد یک عدد صحیح در محدوده 5-200 است',
     createBatchQuota: 'لطفا کل ترافیک را وارد کنید',
     createBatchQuotaRange: 'محدوده جریان کل یک عدد صحیح بین -1-1024000 است',
     createBatchPresetExpire: 'لطفا تاریخ انقضای پیش فرض را وارد کنید',
-    createBatchPresetExpireRange: 'یک عدد صحیح بین 1-365 برای دوره اعتبار از پیش تعیین شده',
+    createBatchPresetExpireRange:
+      'یک عدد صحیح بین 1-365 برای دوره اعتبار از پیش تعیین شده',
     createBatchPresetQuota: 'لطفاً جریان کل پیش فرض را وارد کنید',
-    createBatchPresetQuotaRange: 'محدوده جریان کل از پیش تعیین شده یک عدد صحیح بین -1-1024000 است'
+    createBatchPresetQuotaRange:
+      'محدوده جریان کل از پیش تعیین شده یک عدد صحیح بین -1-1024000 است'
   },
   confirm: {
+    subscribeUrlInvalid: 'نشانی اشتراک نامعتبر است. سرویس پنل را بررسی کنید.',
     warn: 'هشدار دهد',
     yes: 'آره',
     cancel: 'لغو کنید',
@@ -347,21 +374,26 @@ export default {
     urlCopySuccess: 'URL با موفقیت کپی شد',
     urlCopyFail: 'کپی URL انجام نشد',
     uploadWebFileSuccess: 'با موفقیت آپلود شد',
-    updateAccountPass: 'این اصلاح با موفقیت انجام شد و دفعه بعد که وارد سیستم شوید اعمال خواهد شد',
+    updateAccountPass:
+      'این اصلاح با موفقیت انجام شد و دفعه بعد که وارد سیستم شوید اعمال خواهد شد',
     updateAccountProperty: 'با موفقیت اصلاح شد',
-    logoutPrompt: 'شما از سیستم خارج شده اید، می توانید برای ماندن در این صفحه لغو کنید یا دوباره وارد شوید!',
+    logoutPrompt:
+      'شما از سیستم خارج شده اید، می توانید برای ماندن در این صفحه لغو کنید یا دوباره وارد شوید!',
     logoutConfirm: 'دوباره ثبت نام کنید',
     authFail: 'احراز هویت ناموفق بود، لطفا دوباره وارد شوید!',
     deleteUser: 'آیا مطمئن هستید که این کاربر را حذف می کنید؟',
-    handleReset: 'آیا مطمئن هستید که ترافیک دانلود و آپلود کاربر را بازنشانی می کنید؟',
+    handleReset:
+      'آیا مطمئن هستید که ترافیک دانلود و آپلود کاربر را بازنشانی می کنید؟',
     deleteNode: 'آیا مطمئن هستید که این گره را حذف می کنید؟',
     deleteNodeServer: 'آیا مطمئن هستید که می خواهید این سرور را حذف کنید؟',
     deleteBlack: 'آیا مطمئن هستید که این IP را حذف می کنید؟',
-    taskSubmitSuccess: 'کار با موفقیت ارسال شد، لطفاً بعداً آن را در مدیریت کار بررسی کنید',
+    taskSubmitSuccess:
+      'کار با موفقیت ارسال شد، لطفاً بعداً آن را در مدیریت کار بررسی کنید',
     taskDownloadSuccess: 'دانلود با موفقیت',
     alreadyExists: 'درحال حاضر وجود دارد'
   },
   remark: {
-    emailEnable: 'صندوق پستی خود را برای دریافت ایمیل های یادآوری انقضا تنظیم کنید.'
+    emailEnable:
+      'صندوق پستی خود را برای دریافت ایمیل های یادآوری انقضا تنظیم کنید.'
   }
 }

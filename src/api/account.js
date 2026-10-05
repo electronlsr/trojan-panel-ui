@@ -148,8 +148,9 @@ export function updateAccountById(data) {
  */
 export function clashSubscribe() {
   return request({
-    url: '/account/clashSubscribe/',
-    method: 'get'
+    url: '/account/clashSubscribe',
+    method: 'get',
+    params: { target: 'clash-verge' }
   })
 }
 
@@ -162,7 +163,7 @@ export function clashSubscribeForSb(data) {
   return request({
     url: '/account/clashSubscribeForSb',
     method: 'get',
-    params: data
+    params: { id: data.id, target: 'clash-verge' }
   })
 }
 

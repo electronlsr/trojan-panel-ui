@@ -9,24 +9,34 @@ import enLocale from './en'
 import zhLocale from './zh'
 import koLocale from './ko'
 import faLocale from './fa'
+import shell from './shell'
+import modern from './modern'
 
 Vue.use(VueI18n)
 
 const messages = {
   en: {
     ...enLocale,
+    shell: shell.en,
+    modern: modern.en,
     ...elementEnLocale
   },
   zh: {
     ...zhLocale,
+    shell: shell.zh,
+    modern: modern.zh,
     ...elementZhLocale
   },
   ko: {
     ...koLocale,
+    shell: shell.ko,
+    modern: modern.ko,
     ...elementKoLocale
   },
   fa: {
     ...faLocale,
+    shell: shell.fa,
+    modern: modern.fa,
     ...elementFaLocale
   }
 }

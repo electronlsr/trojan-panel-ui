@@ -219,26 +219,26 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 44px;
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid #e6ebf2;
+  box-shadow: none;
 
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid #d8dce5;
+      height: 32px;
+      line-height: 32px;
+      border: 1px solid transparent;
       color: #495060;
       background: #fff;
-      padding: 0 8px;
+      padding: 0 12px;
       font-size: 12px;
       margin-left: 5px;
-      margin-top: 4px;
+      margin-top: 6px;
 
       &:first-of-type {
         margin-left: 15px;
@@ -249,19 +249,20 @@ export default {
       }
 
       &.active {
-        background-color: #42b983;
-        color: #fff;
-        border-color: #42b983;
+        background-color: #edf3ff;
+        color: #2563eb;
+        border-color: #dce8ff;
+        border-radius: 7px;
 
         &::before {
           content: '';
-          background: #fff;
+          background: #2563eb;
           display: inline-block;
-          width: 8px;
-          height: 8px;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
           position: relative;
-          margin-right: 2px;
+          margin-right: 5px;
         }
       }
     }

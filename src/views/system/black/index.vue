@@ -67,6 +67,7 @@
         :label="$t('table.actions')"
         align="center"
         class-name="small-padding fixed-width"
+        min-width="190"
       >
         <template slot-scope="{ row, $index }">
           <el-button
@@ -79,6 +80,18 @@
           </el-button>
         </template>
       </el-table-column>
+      <div slot="empty" class="table-empty" role="status">
+        <i
+          :class="
+            listError ? 'el-icon-warning-outline' : 'el-icon-folder-opened'
+          "
+          aria-hidden="true"
+        />
+        <span>{{ $t(listError ? 'shell.loadError' : 'shell.empty') }}</span>
+        <el-button v-if="listError" type="text" @click="getList">{{
+          $t('shell.retry')
+        }}</el-button>
+      </div>
     </el-table>
 
     <pagination
@@ -137,6 +150,7 @@ export default {
     return {
       tableKey: 0,
       listLoading: true,
+      listError: false,
       list: null,
       total: 0,
       listQuery: {
@@ -178,15 +192,25 @@ export default {
     checkPermission,
     timeStampToDate,
     getList() {
+      const requestId = (this.listRequestId || 0) + 1
+      this.listRequestId = requestId
       this.listLoading = true
-      selectBlackListPage(this.listQuery).then((response) => {
-        this.list = response.data.blackLists
-        this.total = response.data.total
-
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
+      this.listError = false
+      return selectBlackListPage(this.listQuery)
+        .then((response) => {
+          if (requestId !== this.listRequestId) return
+          this.list = response.data.blackLists
+          this.total = response.data.total
+        })
+        .catch(() => {
+          if (requestId !== this.listRequestId) return
+          this.listError = true
+          this.list = []
+          this.total = 0
+        })
+        .finally(() => {
+          if (requestId === this.listRequestId) this.listLoading = false
+        })
     },
     resetTemp() {
       this.temp = {

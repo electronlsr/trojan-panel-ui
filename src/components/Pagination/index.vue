@@ -4,9 +4,10 @@
       :background="background"
       :current-page.sync="currentPage"
       :page-size.sync="pageSize"
-      :layout="layout"
+      :layout="responsiveLayout"
       :page-sizes="pageSizes"
       :total="total"
+      :pager-count="$store.getters.device === 'mobile' ? 5 : 7"
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -56,6 +57,11 @@ export default {
     }
   },
   computed: {
+    responsiveLayout() {
+      return this.$store.getters.device === 'mobile'
+        ? 'total, prev, pager, next'
+        : this.layout
+    },
     currentPage: {
       get() {
         return this.page

@@ -50,6 +50,10 @@
         {{ $t('table.clashSubscribe') }}
       </el-button>
     </div>
+    <p class="subscription-note" role="note">
+      <i class="el-icon-info" aria-hidden="true" />
+      <span>{{ $t('table.vergeSubscriptionHint') }}</span>
+    </p>
     <el-table
       :key="tableKey"
       v-loading="listLoading"
@@ -72,7 +76,7 @@
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.name }}</span>
+          <strong class="table-name">{{ row.name }}</strong>
         </template>
       </el-table-column>
       <el-table-column
@@ -91,7 +95,7 @@
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.domain }}</span>
+          <span class="table-monospace">{{ row.domain }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -119,7 +123,9 @@
         align="center"
       >
         <template slot-scope="{ row }">
-          <span>{{ nodeTypeFind(nodeTypes, row.nodeTypeId) }}</span>
+          <el-tag type="info">{{
+            nodeTypeFind(nodeTypes, row.nodeTypeId)
+          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -147,35 +153,59 @@
         :label="$t('table.actions').toString()"
         align="center"
         class-name="small-padding fixed-width"
+        min-width="180"
+        :fixed="$store.getters.device === 'mobile' ? false : 'right'"
       >
         <template slot-scope="{ row, $index }">
+          <el-button type="primary" size="mini" @click="handleDetail(row)">{{
+            $t('table.detail')
+          }}</el-button>
           <el-button
+            v-if="checkPermission(['sysadmin', 'admin'])"
             type="primary"
             size="mini"
             @click="handleUpdate(row)"
-            v-if="checkPermission(['sysadmin', 'admin'])"
+            >{{ $t('table.edit') }}</el-button
           >
-            {{ $t('table.edit') }}
-          </el-button>
-          <el-button type="primary" size="mini" @click="handleQRCode(row)">
-            {{ $t('table.nodeQRCode') }}
-          </el-button>
-          <el-button type="success" size="mini" @click="handleCopyURL(row)">
-            {{ $t('table.nodeURL') }}
-          </el-button>
-          <el-button type="success" size="mini" @click="handleDetail(row)">
-            {{ $t('table.detail') }}
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(row, $index)"
-            v-if="checkPermission(['sysadmin', 'admin'])"
-          >
-            {{ $t('table.delete') }}
-          </el-button>
+          <el-dropdown trigger="click" class="row-more-actions">
+            <el-button size="mini" :aria-label="$t('table.actions')"
+              ><i class="el-icon-more"
+            /></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                icon="el-icon-picture-outline"
+                @click.native="handleQRCode(row)"
+                >{{ $t('table.nodeQRCode') }}</el-dropdown-item
+              >
+              <el-dropdown-item
+                icon="el-icon-link"
+                @click.native="handleCopyURL(row)"
+                >{{ $t('table.nodeURL') }}</el-dropdown-item
+              >
+              <el-dropdown-item
+                v-if="checkPermission(['sysadmin', 'admin'])"
+                divided
+                icon="el-icon-delete"
+                class="danger-action"
+                @click.native="handleDelete(row, $index)"
+                >{{ $t('table.delete') }}</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
+      <div slot="empty" class="table-empty" role="status">
+        <i
+          :class="
+            listError ? 'el-icon-warning-outline' : 'el-icon-folder-opened'
+          "
+          aria-hidden="true"
+        />
+        <span>{{ $t(listError ? 'shell.loadError' : 'shell.empty') }}</span>
+        <el-button v-if="listError" type="text" @click="getList">{{
+          $t('shell.retry')
+        }}</el-button>
+      </div>
     </el-table>
 
     <Pagination
@@ -211,6 +241,7 @@
 </template>
 
 <script>
+import { resolveSubscriptionUrl } from '@/utils/subscription'
 import Pagination from '@/components/Pagination'
 import NodeDetail from '@/views/node/list/components/NodeDetail'
 import NodeQrcode from '@/views/node/list/components/NodeQrcode'
@@ -268,6 +299,7 @@ export default {
     return {
       tableKey: 0,
       listLoading: true,
+      listError: false,
       list: null,
       total: 0,
       listQuery: {
@@ -569,15 +601,25 @@ export default {
       }
     },
     getList() {
+      const requestId = (this.listRequestId || 0) + 1
+      this.listRequestId = requestId
       this.listLoading = true
-      selectNodePage(this.listQuery).then((response) => {
-        this.list = response.data.nodes
-        this.total = response.data.total
-
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
+      this.listError = false
+      return selectNodePage(this.listQuery)
+        .then((response) => {
+          if (requestId !== this.listRequestId) return
+          this.list = response.data.nodes
+          this.total = response.data.total
+        })
+        .catch(() => {
+          if (requestId !== this.listRequestId) return
+          this.listError = true
+          this.list = []
+          this.total = 0
+        })
+        .finally(() => {
+          if (requestId === this.listRequestId) this.listLoading = false
+        })
     },
     handleFilter() {
       this.listQuery.pageNum = 1
@@ -668,28 +710,36 @@ export default {
       })
     },
     handleClashSubscribe() {
-      clashSubscribe().then((response) => {
-        if (
-          copy(
-            window.location.protocol +
-              '//' +
-              window.location.host +
-              response.data
-          )
-        ) {
-          Message({
-            showClose: true,
-            message: this.$t('confirm.urlCopySuccess').toString(),
-            type: 'success'
-          })
-        } else {
-          Message({
-            showClose: true,
-            message: this.$t('confirm.urlCopyFail').toString(),
-            type: 'error'
-          })
-        }
-      })
+      clashSubscribe()
+        .then((response) => {
+          let url
+          try {
+            url = resolveSubscriptionUrl(response.data, window.location.origin)
+          } catch (error) {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.subscribeUrlInvalid'),
+              type: 'error'
+            })
+            return
+          }
+          if (copy(url)) {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.urlCopySuccess').toString(),
+              type: 'success'
+            })
+          } else {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.urlCopyFail').toString(),
+              type: 'error'
+            })
+          }
+        })
+        .catch(() => {
+          // The request interceptor already shows the API's explanatory error.
+        })
     }
   }
 }

@@ -307,6 +307,7 @@
         :label="$t('table.actions').toString()"
         align="center"
         class-name="small-padding fixed-width"
+        min-width="190"
       >
         <template slot-scope="{ row, $index }">
           <el-button
@@ -345,6 +346,18 @@
           </el-button>
         </template>
       </el-table-column>
+      <div slot="empty" class="table-empty" role="status">
+        <i
+          :class="
+            listError ? 'el-icon-warning-outline' : 'el-icon-folder-opened'
+          "
+          aria-hidden="true"
+        />
+        <span>{{ $t(listError ? 'shell.loadError' : 'shell.empty') }}</span>
+        <el-button v-if="listError" type="text" @click="getList">{{
+          $t('shell.retry')
+        }}</el-button>
+      </div>
     </el-table>
 
     <pagination
@@ -444,6 +457,7 @@
 </template>
 
 <script>
+import { resolveSubscriptionUrl } from '@/utils/subscription'
 import {
   clashSubscribeForSb,
   createAccount,
@@ -491,6 +505,7 @@ export default {
     return {
       tableKey: 0,
       listLoading: true,
+      listError: false,
       list: null,
       total: 0,
       orderFieldArr: ['role_id', 'create_time'],
@@ -726,16 +741,26 @@ export default {
       })
     },
     getList() {
+      const requestId = (this.listRequestId || 0) + 1
+      this.listRequestId = requestId
       this.listLoading = true
+      this.listError = false
       this.listQuery.orderFields = this.orderFieldArr.join(',')
-      selectAccountPage(this.listQuery).then((response) => {
-        this.list = response.data.accounts
-        this.total = response.data.total
-
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
+      return selectAccountPage(this.listQuery)
+        .then((response) => {
+          if (requestId !== this.listRequestId) return
+          this.list = response.data.accounts
+          this.total = response.data.total
+        })
+        .catch(() => {
+          if (requestId !== this.listRequestId) return
+          this.listError = true
+          this.list = []
+          this.total = 0
+        })
+        .finally(() => {
+          if (requestId === this.listRequestId) this.listLoading = false
+        })
     },
     resetTemp() {
       this.temp = {
@@ -940,28 +965,36 @@ export default {
       })
     },
     handleClashSubscribeForSb(row) {
-      clashSubscribeForSb(row).then((response) => {
-        if (
-          copy(
-            window.location.protocol +
-              '//' +
-              window.location.host +
-              response.data
-          )
-        ) {
-          Message({
-            showClose: true,
-            message: this.$t('confirm.urlCopySuccess').toString(),
-            type: 'success'
-          })
-        } else {
-          Message({
-            showClose: true,
-            message: this.$t('confirm.urlCopyFail').toString(),
-            type: 'error'
-          })
-        }
-      })
+      clashSubscribeForSb(row)
+        .then((response) => {
+          let url
+          try {
+            url = resolveSubscriptionUrl(response.data, window.location.origin)
+          } catch (error) {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.subscribeUrlInvalid'),
+              type: 'error'
+            })
+            return
+          }
+          if (copy(url)) {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.urlCopySuccess').toString(),
+              type: 'success'
+            })
+          } else {
+            Message({
+              showClose: true,
+              message: this.$t('confirm.urlCopyFail').toString(),
+              type: 'error'
+            })
+          }
+        })
+        .catch(() => {
+          // The request interceptor already shows the API's explanatory error.
+        })
     }
   }
 }

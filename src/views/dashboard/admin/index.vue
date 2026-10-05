@@ -1,100 +1,61 @@
 <template>
-  <div class="dashboard-editor-container">
-    <panel-group :group-data="panelGroupData" />
-    <el-row :gutter="8">
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 24 }"
-        :md="{ span: 24 }"
-        :lg="{ span: 12 }"
-        :xl="{ span: 12 }"
-      >
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>{{ $t('dashboard.trafficRank') }}</span>
-          </div>
-          <div class="component-item">
-            <traffic-table />
-          </div>
-        </el-card>
-      </el-col>
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 12 }"
-        :md="{ span: 12 }"
-        :lg="{ span: 6 }"
-        :xl="{ span: 6 }"
-      >
-      </el-col>
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 12 }"
-        :md="{ span: 12 }"
-        :lg="{ span: 6 }"
-        :xl="{ span: 6 }"
-      >
-      </el-col>
-    </el-row>
+  <div class="dashboard-view">
+    <dashboard-header
+      admin
+      :loading="overviewLoading || refreshing"
+      :updated-at="updatedAt"
+      @refresh="refreshDashboard"
+    />
+    <div v-if="overviewError" class="dashboard-error" role="alert">
+      <i class="el-icon-warning-outline" aria-hidden="true" /><span>{{
+        $t('modern.dashboard.loadError')
+      }}</span
+      ><el-button type="text" @click="refreshDashboard">{{
+        $t('modern.dashboard.retry')
+      }}</el-button>
+    </div>
+    <panel-group
+      :group-data="panelGroupData"
+      :loading="overviewLoading && !updatedAt"
+    />
+    <div class="dashboard-columns">
+      <div class="dashboard-main-column">
+        <traffic-table ref="traffic" />
+        <account-usage
+          :group-data="panelGroupData"
+          :loading="overviewLoading && !updatedAt"
+        />
+      </div>
+      <aside class="dashboard-side-column">
+        <system-resources
+          :group-data="panelGroupData"
+          :loading="overviewLoading && !updatedAt"
+        />
+        <quick-links />
+      </aside>
+    </div>
   </div>
 </template>
 
 <script>
-import PanelGroup from '@/views/dashboard/admin/compoments/PanelGroup.vue'
-import TrafficTable from '@/views/dashboard/admin/compoments/TrafficTable'
-import { panelGroup } from '@/api/dashboard'
+import PanelGroup from './compoments/PanelGroup'
+import TrafficTable from './compoments/TrafficTable'
+import DashboardHeader from '../components/DashboardHeader'
+import SystemResources from '../components/SystemResources'
+import QuickLinks from '../components/QuickLinks'
+import AccountUsage from '../components/AccountUsage'
+import overview from '../mixins/overview'
 
 export default {
-  name: 'Admin',
+  name: 'AdminDashboard',
   components: {
     PanelGroup,
-    TrafficTable
+    TrafficTable,
+    DashboardHeader,
+    SystemResources,
+    QuickLinks,
+    AccountUsage
   },
-  data() {
-    return {
-      panelGroupData: {
-        totalFlow: 0,
-        residualFlow: 0,
-        nodeNum: 0,
-        expireTime: new Date(),
-        accountCount: 0,
-        cpuUsed: 0,
-        memUsed: 0,
-        diskUsed: 0
-      }
-    }
-  },
-  created() {
-    panelGroup().then((response) => {
-      const { data } = response
-      this.panelGroupData = data
-    })
-  }
+  mixins: [overview]
 }
 </script>
-
-<style lang="scss" scoped>
-.dashboard-editor-container {
-  padding: 32px;
-  background-color: rgb(240, 242, 245);
-  position: relative;
-
-  .github-corner {
-    position: absolute;
-    top: 0px;
-    border: 0;
-    right: 0;
-  }
-
-  .chart-wrapper {
-    background: #fff;
-    padding: 16px 16px 0;
-    margin-bottom: 32px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .chart-wrapper {
-    padding: 8px;
-  }
-}
-</style>

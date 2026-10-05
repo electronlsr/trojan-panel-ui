@@ -7,11 +7,22 @@
         class="sidebar-logo-link"
         to="/"
       >
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title">{{ title }}</h1>
+        <img
+          v-if="logo"
+          :src="logo"
+          class="sidebar-logo"
+          alt=""
+          @error="logo = ''"
+        /><span v-else class="sidebar-brand-mark">T</span>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
+        <img
+          v-if="logo"
+          :src="logo"
+          class="sidebar-logo"
+          alt=""
+          @error="logo = ''"
+        /><span v-else class="sidebar-brand-mark">T</span>
         <h1 class="sidebar-title">{{ title }}</h1>
       </router-link>
     </transition>
@@ -31,7 +42,7 @@ export default {
   },
   data() {
     return {
-      title: '',
+      title: 'Trojan Panel',
       logo: '/api/image/logo'
     }
   },
@@ -50,50 +61,54 @@ export default {
 
 <style lang="scss" scoped>
 .sidebarLogoFade-enter-active {
-  transition: opacity 1.5s;
+  transition: opacity 0.2s;
 }
-
 .sidebarLogoFade-enter,
 .sidebarLogoFade-leave-to {
   opacity: 0;
 }
-
 .sidebar-logo-container {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  background: #2b2f3a;
-  text-align: center;
+  height: 84px;
+  padding: 0 24px;
   overflow: hidden;
-
-  & .sidebar-logo-link {
+  .sidebar-logo-link {
+    display: flex !important;
+    align-items: center;
     height: 100%;
-    width: 100%;
-
-    & .sidebar-logo {
-      width: 32px;
-      height: 32px;
-      vertical-align: middle;
-      margin-right: 12px;
-    }
-
-    & .sidebar-title {
-      display: inline-block;
-      margin: 0;
-      color: #fff;
-      font-weight: 600;
-      line-height: 50px;
-      font-size: 14px;
-      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-      vertical-align: middle;
-    }
+    gap: 12px;
   }
-
+  .sidebar-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .sidebar-brand-mark {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #3274ee;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 10px;
+  }
+  .sidebar-title {
+    margin: 0;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 650;
+    line-height: 1.35;
+    letter-spacing: -0.4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   &.collapse {
-    .sidebar-logo {
-      margin-right: 0px;
-    }
+    padding: 0 9px;
   }
 }
 </style>

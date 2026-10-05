@@ -1,7 +1,7 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in levelList" :key="index">
+      <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path">
         <span
           v-if="
             item.redirect === 'noRedirect' || index === levelList.length - 1
@@ -56,7 +56,11 @@ export default {
       }
 
       this.levelList = matched.filter(
-        (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false
+        (item, index) =>
+          item.meta &&
+          item.meta.title &&
+          item.meta.breadcrumb !== false &&
+          (index === 0 || matched[index - 1].meta.title !== item.meta.title)
       )
     },
     isDashboard(route) {
@@ -88,11 +92,11 @@ export default {
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;
-  line-height: 50px;
+  line-height: 72px;
   margin-left: 8px;
 
   .no-redirect {
-    color: #97a8be;
+    color: #43536c;
     cursor: text;
   }
 }

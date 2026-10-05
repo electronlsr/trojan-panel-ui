@@ -9,7 +9,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\""
+    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "prebuild": "node scripts/check-vue-runtime.cjs --repair",
+    "test:subscription": "node scripts/test-subscription.cjs"
   },
   "dependencies": {
     "@vue/composition-api": "^1.7.1",

@@ -13,3 +13,6 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
+
+# Isolated static mock-data preview (never a production build)
+preview-dist/

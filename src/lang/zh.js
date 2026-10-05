@@ -48,7 +48,9 @@ export default {
     disable: '禁用',
     search: '搜索',
     add: '添加',
-    clashSubscribe: 'Clash.Meta订阅',
+    clashSubscribe: 'Clash Verge Rev / Mihomo 订阅',
+    vergeSubscriptionHint:
+      '规则模式默认分流：局域网和中国大陆直连，其余流量走代理；客户端每 24 小时检查规则更新。',
     clashSubscribeForSb: '复制订阅',
     actions: '操作',
     edit: '编辑',
@@ -109,8 +111,10 @@ export default {
     hysteriaInsecure: '允许不安全',
     hysteriaFastOpen: '快速打开',
     naiveProxyUsername: '用户',
-    hysteriaTip: '目前支持的Hysteria处于测试阶段，只支持用户认证不支持流量统计。',
-    naiveproxyTip: '目前支持的NaiveProxy处于测试阶段，只支持用户认证不支持流量统计。',
+    hysteriaTip:
+      '目前支持的Hysteria处于测试阶段，只支持用户认证不支持流量统计。',
+    naiveproxyTip:
+      '目前支持的NaiveProxy处于测试阶段，只支持用户认证不支持流量统计。',
     hysteria2ObfsPassword: '混淆密码',
     hysteria2UpMbps: '单客户端最大上传速度/Mbps',
     hysteria2DownMbps: '单客户端最大下载速度/Mbps',
@@ -223,7 +227,7 @@ export default {
     clashRule: 'Clash规则',
     xrayTemplate: 'Xray模板',
     modifyPass: '修改密码',
-    modifyProperty: '修改信息',
+    modifyProperty: '修改信息'
   },
   valid: {
     passNotSame: '两次新密码输入不一致',
@@ -289,7 +293,8 @@ export default {
     hysteria2UpMbps: '请输入单客户端最大上传速度/Mbps',
     hysteria2UpMbpsRange: '单客户端最大上传速度的范围在1-9999999999之间的整数',
     hysteria2DownMbps: '请输入单客户端最大下载速度/Mbps',
-    hysteria2DownMbpsRange: '单客户端最大下载速度的范围在1-9999999999之间的整数',
+    hysteria2DownMbpsRange:
+      '单客户端最大下载速度的范围在1-9999999999之间的整数',
     hysteria2ServerNameRange: 'SNI的范围在0-64字符之间',
     hysteria2Insecure: '请输入是否允许不安全',
     registerEnable: '请输入是否开放注册',
@@ -337,6 +342,7 @@ export default {
     createBatchPresetQuotaRange: '预设总流量的范围在-1-1024000之间的整数'
   },
   confirm: {
+    subscribeUrlInvalid: '订阅地址无效，请检查面板服务。',
     warn: '警告',
     yes: '是',
     cancel: '取消',

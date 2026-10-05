@@ -1,6 +1,9 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="isCollapse" />
+    <div v-if="!isCollapse" class="sidebar-section-label">
+      {{ $t('shell.workspace') }}
+    </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -20,6 +23,12 @@
         />
       </el-menu>
     </el-scrollbar>
+    <div v-if="!isCollapse" class="sidebar-footer">
+      <span class="sidebar-footer-mark"><i class="el-icon-connection" /></span>
+      <div>
+        <strong>Trojan Panel</strong><span>{{ $t('shell.console') }}</span>
+      </div>
+    </div>
   </div>
 </template>
 

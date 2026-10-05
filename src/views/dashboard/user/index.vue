@@ -1,107 +1,86 @@
 <template>
-  <div class="dashboard-editor-container">
-    <panel-group :group-data="panelGroupData" />
-    <el-row :gutter="8">
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 24 }"
-        :md="{ span: 24 }"
-        :lg="{ span: 12 }"
-        :xl="{ span: 12 }"
-      >
-        <el-card class="box-card" v-if="trafficRankEnable === 1">
-          <div slot="header" class="clearfix">
-            <span>{{ $t('dashboard.trafficRank') }}</span>
-          </div>
-          <div class="component-item">
-            <traffic-table />
-          </div>
-        </el-card>
-      </el-col>
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 12 }"
-        :md="{ span: 12 }"
-        :lg="{ span: 6 }"
-        :xl="{ span: 6 }"
-      >
-      </el-col>
-      <el-col
-        :xs="{ span: 24 }"
-        :sm="{ span: 12 }"
-        :md="{ span: 12 }"
-        :lg="{ span: 6 }"
-        :xl="{ span: 6 }"
-      >
-      </el-col>
-    </el-row>
+  <div class="dashboard-view">
+    <dashboard-header
+      :loading="overviewLoading || refreshing"
+      :updated-at="updatedAt"
+      @refresh="refreshDashboard"
+    />
+    <div v-if="overviewError" class="dashboard-error" role="alert">
+      <i class="el-icon-warning-outline" aria-hidden="true" /><span>{{
+        $t('modern.dashboard.loadError')
+      }}</span
+      ><el-button type="text" @click="refreshDashboard">{{
+        $t('modern.dashboard.retry')
+      }}</el-button>
+    </div>
+    <div v-if="settingsError" class="dashboard-error" role="alert">
+      <i class="el-icon-warning-outline" aria-hidden="true" /><span>{{
+        $t('modern.dashboard.settingsError')
+      }}</span
+      ><el-button type="text" @click="loadSettings">{{
+        $t('modern.dashboard.retry')
+      }}</el-button>
+    </div>
+    <panel-group
+      :group-data="panelGroupData"
+      :loading="overviewLoading && !updatedAt"
+    />
+    <div class="dashboard-columns dashboard-user-columns">
+      <div class="dashboard-main-column">
+        <account-usage
+          :group-data="panelGroupData"
+          :loading="overviewLoading && !updatedAt"
+        />
+        <traffic-table v-if="trafficRankEnable === 1" ref="traffic" />
+      </div>
+      <aside class="dashboard-side-column"><quick-links /></aside>
+    </div>
   </div>
 </template>
 
 <script>
-import PanelGroup from '@/views/dashboard/user/compoments/PanelGroup'
-import { panelGroup } from '@/api/dashboard'
-import TrafficTable from '@/views/dashboard/admin/compoments/TrafficTable'
+import PanelGroup from './compoments/PanelGroup'
+import TrafficTable from '../admin/compoments/TrafficTable'
+import DashboardHeader from '../components/DashboardHeader'
+import QuickLinks from '../components/QuickLinks'
+import AccountUsage from '../components/AccountUsage'
 import { setting } from '@/api/system'
+import overview from '../mixins/overview'
 
 export default {
-  name: 'User',
+  name: 'UserDashboard',
   components: {
     PanelGroup,
-    TrafficTable
+    TrafficTable,
+    DashboardHeader,
+    QuickLinks,
+    AccountUsage
   },
+  mixins: [overview],
   data() {
     return {
-      panelGroupData: {
-        totalFlow: 0,
-        residualFlow: 0,
-        nodeNum: 0,
-        expireTime: new Date()
-      },
-      trafficRankEnable: 0
+      trafficRankEnable: 0,
+      settingsError: false,
+      settingsLoading: false
     }
   },
   created() {
-    panelGroup().then((response) => {
-      const { data } = response
-      this.panelGroupData = data
-    })
-    this.setting()
+    this.loadSettings()
   },
   methods: {
-    setting() {
-      setting().then((response) => {
-        const { data } = response
-        this.trafficRankEnable = data.trafficRankEnable
-      })
+    async loadSettings() {
+      if (this.settingsLoading) return
+      this.settingsLoading = true
+      this.settingsError = false
+      try {
+        const response = await setting()
+        this.trafficRankEnable = response.data.trafficRankEnable
+      } catch (error) {
+        this.settingsError = true
+      } finally {
+        this.settingsLoading = false
+      }
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.dashboard-editor-container {
-  padding: 32px;
-  background-color: rgb(240, 242, 245);
-  position: relative;
-
-  .github-corner {
-    position: absolute;
-    top: 0px;
-    border: 0;
-    right: 0;
-  }
-
-  .chart-wrapper {
-    background: #fff;
-    padding: 16px 16px 0;
-    margin-bottom: 32px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .chart-wrapper {
-    padding: 8px;
-  }
-}
-</style>
