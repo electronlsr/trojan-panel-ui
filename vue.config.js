@@ -44,7 +44,8 @@ module.exports = {
             // 配置项参考：https://github.com/javascript-obfuscator/javascript-obfuscator
             new JavaScriptObfuscator(
               {
-                rotateStringArray: true
+                rotateStringArray: true,
+                seed: 20261005
               },
               []
             )
